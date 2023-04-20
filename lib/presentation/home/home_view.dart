@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_book_app/controller/book_controller.dart';
 import 'package:flutter_book_app/presentation/home/widgets/book_list/book_list.dart';
-import 'package:flutter_book_app/presentation/home/widgets/book_list/widgets/book_list_item/book_list_item.dart';
-import 'package:flutter_book_app/presentation/home/widgets/order_by_dropdown.dart';
-import 'package:flutter_book_app/presentation/home/widgets/search_bar.dart';
-import 'package:get/state_manager.dart';
+import 'package:flutter_book_app/presentation/home/widgets/favorites_button.dart';
 import 'package:get_it/get_it.dart';
 
 class HomeView extends StatefulWidget {
@@ -17,42 +12,30 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final BookController _controller = GetIt.instance<BookController>();
   @override
   void initState() {
+    // _controller.fetchBooks();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Book App",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: [FavoritesButton()],
+      ),
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              children: [
-                SearchBar(),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Results",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    OrderByButton()
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                BookList(),
-              ],
-            ),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: BookList(),
           ),
         ),
       ),

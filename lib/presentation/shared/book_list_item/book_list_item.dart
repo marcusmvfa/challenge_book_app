@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_book_app/controller/book_controller.dart';
 import 'package:flutter_book_app/domain/model/book_model.dart';
 import 'package:flutter_book_app/presentation/book_details/book_details_view.dart';
-import 'package:flutter_book_app/presentation/home/widgets/book_list/widgets/book_list_item/content.dart';
+import 'package:flutter_book_app/presentation/shared/book_list_item/content.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,7 +26,10 @@ class BookListItem extends StatelessWidget {
             Expanded(
               flex: 2,
               child: book.volumeInfo?.imageLinks?.smallThumbnail != null
-                  ? Image.network(book.volumeInfo!.imageLinks!.smallThumbnail!)
+                  ? Image.network(
+                      book.volumeInfo!.imageLinks!.smallThumbnail!,
+                      errorBuilder: (context, error, stackTrace) => const FlutterLogo(size: 124),
+                    )
                   : const FlutterLogo(size: 124),
             ),
             const SizedBox(width: 8),

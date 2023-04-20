@@ -57,7 +57,7 @@ class _DetailsContentState extends State<DetailsContent> {
         Obx(
           () => Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Text(
-              !showMore.value ? book.volumeInfo!.description! : shortContent,
+              !showMore.value ? book.volumeInfo?.description ?? "" : shortContent,
               style: TextStyle(height: 1.5, fontSize: 14, color: Colors.grey.shade700),
             ),
             content.length > 250

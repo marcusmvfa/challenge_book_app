@@ -45,6 +45,6 @@ class LocalRepository {
 
   Future getFavoriteIds() async {
     final result = await _db.query('books', columns: ['id']);
-    favoritedIds = List.generate(result.length, (i) => Map.from(result[i])['id']);
+    favoritedIds = List<String>.generate(result.length, (i) => Map.from(result[i])['id']);
   }
 }
