@@ -5,6 +5,7 @@ import 'package:flutter_book_app/domain/model/access_info.dart';
 import 'package:flutter_book_app/domain/model/sales_info.dart';
 import 'package:flutter_book_app/domain/model/search_info.dart';
 import 'package:flutter_book_app/domain/model/volume_info.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class Book {
   String? kind;
@@ -15,7 +16,7 @@ class Book {
   SaleInfo? saleInfo;
   AccessInfo? accessInfo;
   SearchInfo? searchInfo;
-  bool? isFavorited;
+  RxBool isFavorited = false.obs;
 
   Book({
     this.kind,

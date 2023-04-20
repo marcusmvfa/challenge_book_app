@@ -28,13 +28,14 @@ class BookController {
     try {
       var result = <Book>[];
       isSearching.value = true;
-
+      favoritedIds = _localRepository.favoritedIds;
       final connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
         result = await _bookRepository.fetchBooks(searchField.text, orderBy.value);
       } else {
         result = await _localRepository.getBooks();
       }
+      verifyFavorite(result);
       books.value = result;
     } finally {
       isSearching.value = false;
@@ -42,17 +43,23 @@ class BookController {
   }
 
   Future saveFavorite(Book book) async {
-    await _localRepository.favoriteBook(book);
-  }
-
-  Future getBooksDatabase() async {
-    final result = await _localRepository.getBooks();
-    return result;
+    if (favoritedIds.contains(book.id)) {
+      await removeFavorite(book.id!);
+      await fetchBooks();
+    } else {
+      await _localRepository.favoriteBook(book);
+    }
   }
 
   Future removeFavorite(String id) async {
     await _localRepository.removeBook(id);
   }
 
-  verifyFavorite() {}
+  verifyFavorite(List<Book> result) {
+    for (var b in result) {
+      if (favoritedIds.contains(b.id!)) {
+        b.isFavorited.value = true;
+      }
+    }
+  }
 }

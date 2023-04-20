@@ -37,11 +37,11 @@ class BookListItem extends StatelessWidget {
               child: Obx(
                 () => InkWell(
                   onTap: () {
-                    marked.value = !marked.value;
-                    // _controller.saveFavorite(book);
-                    _controller.removeFavorite(book.id!);
+                    book.isFavorited.value = !book.isFavorited.value;
+                    _controller.saveFavorite(book);
+                    // _controller.removeFavorite(book.id!);
                   },
-                  child: marked.value ? const Icon(Icons.bookmark, color: Colors.amber) : const Icon(Icons.bookmark_border),
+                  child: book.isFavorited.value ? const Icon(Icons.bookmark, color: Colors.amber) : const Icon(Icons.bookmark_border),
                 ),
               ),
             )

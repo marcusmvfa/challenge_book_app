@@ -3,9 +3,12 @@ import 'package:sqflite/sqflite.dart';
 
 class LocalRepository {
   LocalRepository() {
-    open();
+    open().then((value) async => await getFavoriteIds());
   }
+
   late Database _db;
+  List favoritedIds = <String>[];
+
   Future<void> open() async {
     String path = await getDatabasesPath();
     String dbPath = "${path}books.db";
@@ -36,7 +39,12 @@ class LocalRepository {
   Future<List<Book>> getBooks() async {
     List<Map<String, dynamic>> maps = await _db.query('books');
     return List.generate(maps.length, (i) {
-      return Book.fromDatabase(Map.from(maps[i]))..isFavorited = true;
+      return Book.fromDatabase(Map.from(maps[i]))..isFavorited.value = true;
     });
+  }
+
+  Future getFavoriteIds() async {
+    final result = await _db.query('books', columns: ['id']);
+    favoritedIds = List.generate(result.length, (i) => Map.from(result[i])['id']);
   }
 }
