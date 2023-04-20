@@ -18,7 +18,7 @@ class ListPrice {
 
   factory ListPrice.fromMap(Map<String, dynamic> map) {
     return ListPrice(
-      amount: map['amount'] != null ? map['amount'] as double : null,
+      amount: map['amount'] != null ? map['amount'].toDouble() as double : null,
       currencyCode: map['currencyCode'] != null ? map['currencyCode'] as String : null,
     );
   }

@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter_book_app/model/list_price.dart';
-import 'package:flutter_book_app/model/offers.dart';
+import 'package:flutter_book_app/domain/model/list_price.dart';
+import 'package:flutter_book_app/domain/model/offers.dart';
 
 class SaleInfo {
   String? country;
@@ -44,7 +44,7 @@ class SaleInfo {
       buyLink: map['buyLink'] != null ? map['buyLink'] as String : null,
       offers: map['offers'] != null
           ? List<Offers>.from(
-              (map['offers'] as List<int>).map<Offers?>(
+              (map['offers'] as List).map<Offers?>(
                 (x) => Offers.fromMap(x as Map<String, dynamic>),
               ),
             )

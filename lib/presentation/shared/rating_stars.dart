@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class RatingStars extends StatelessWidget {
   const RatingStars({required this.stars, super.key});
-  final double stars;
+  final num stars;
   final int maxStars = 5;
 
   get filledStar => Icon(Icons.star, color: Colors.amber.shade300, size: 18);
@@ -26,6 +26,7 @@ class RatingStars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: List.generate(maxStars, (index) => fillStars(index)),
     );
   }

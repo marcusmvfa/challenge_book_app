@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter_book_app/model/epub.dart';
+import 'package:flutter_book_app/domain/model/epub.dart';
 
 class AccessInfo {
   String? country;

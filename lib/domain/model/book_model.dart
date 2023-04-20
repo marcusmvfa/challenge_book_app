@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter_book_app/model/access_info.dart';
-import 'package:flutter_book_app/model/sales_info.dart';
-import 'package:flutter_book_app/model/search_info.dart';
-import 'package:flutter_book_app/model/volume_info.dart';
+import 'package:flutter_book_app/domain/model/access_info.dart';
+import 'package:flutter_book_app/domain/model/sales_info.dart';
+import 'package:flutter_book_app/domain/model/search_info.dart';
+import 'package:flutter_book_app/domain/model/volume_info.dart';
 
 class Book {
   String? kind;
@@ -15,6 +15,7 @@ class Book {
   SaleInfo? saleInfo;
   AccessInfo? accessInfo;
   SearchInfo? searchInfo;
+  bool? isFavorited;
 
   Book({
     this.kind,
@@ -51,6 +52,13 @@ class Book {
       accessInfo: map['accessInfo'] != null ? AccessInfo.fromMap(map['accessInfo'] as Map<String, dynamic>) : null,
       searchInfo: map['searchInfo'] != null ? SearchInfo.fromMap(map['searchInfo'] as Map<String, dynamic>) : null,
     );
+  }
+
+  factory Book.fromDatabase(Map map) {
+    return Book(
+        id: map['id'],
+        volumeInfo: VolumeInfo.fromMap(jsonDecode(map['volumeInfo']) as Map<String, dynamic>),
+        saleInfo: SaleInfo.fromMap(jsonDecode(map['saleInfo']) as Map<String, dynamic>));
   }
 
   String toJson() => json.encode(toMap());

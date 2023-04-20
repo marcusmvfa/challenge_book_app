@@ -1,9 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'dart:async';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_book_app/controller/book_controller.dart';
+import 'package:get_it/get_it.dart';
+
+class SearchBar extends StatefulWidget {
+  SearchBar({super.key});
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  final BookController _controller = GetIt.instance<BookController>();
+
+  Timer? searchOnStoppedTyping;
+
+  _onChangeHandler(value) {
+    const duration = Duration(milliseconds: 800);
+    if (searchOnStoppedTyping != null) {
+      setState(() => searchOnStoppedTyping!.cancel());
+    }
+    setState(() => searchOnStoppedTyping = Timer(duration, () => _controller.fetchBooks()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +32,8 @@ class SearchBar extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
         child: TextFormField(
+          controller: _controller.searchField,
+          onChanged: _onChangeHandler,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -21,7 +42,7 @@ class SearchBar extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.all(8),
             border: InputBorder.none,
-            hintText: "Busque por um livro...",
+            hintText: "Search for a book...",
           ),
         ),
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_book_app/injection.dart';
 import 'package:flutter_book_app/presentation/home/home_view.dart';
 
 void main() {
+  configureInjection();
   runApp(const MyApp());
 }
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
+      home: HomeView(),
     );
   }
 }
