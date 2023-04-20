@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_book_app/domain/constants/constants.dart';
 import 'package:flutter_book_app/domain/model/book_model.dart';
 import 'package:flutter_book_app/repository/book_repository.dart';
+import 'package:flutter_book_app/repository/i_book_repository.dart';
 import 'package:flutter_book_app/repository/local_repository.dart';
 import 'package:get/state_manager.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 
 class BookController {
-  final BookRepository _bookRepository = BookRepository();
-  final LocalRepository _localRepository = GetIt.instance<LocalRepository>();
+  final _bookRepository = GetIt.instance<IBookRepository>();
+  final _localRepository = GetIt.instance<LocalRepository>();
 
   TextEditingController searchField = TextEditingController();
   int paginationIndex = 0;
@@ -25,9 +26,15 @@ class BookController {
 
   Future fetchBooks({bool paginate = false}) async {
     try {
+      var result = <Book>[];
       isSearching.value = true;
-      final result = await _bookRepository.fetchBooks(searchField.text, orderBy.value);
-      // final result = await _bookRepository.getBooks();
+
+      final connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+        result = await _bookRepository.fetchBooks(searchField.text, orderBy.value);
+      } else {
+        result = await _localRepository.getBooks();
+      }
       books.value = result;
     } finally {
       isSearching.value = false;
